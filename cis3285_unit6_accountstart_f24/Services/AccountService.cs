@@ -55,7 +55,26 @@ namespace Services
         public void Withdrawal(string accountName, decimal amount)
         // withdrawal the given account into the account named
         {
-            throw new NotImplementedException();
+            AccountBase acc = FindAccount(accountName);
+
+            if (acc == null)
+            {
+                throw new ArgumentException("Account not found.");
+            }
+
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Withdrawal amount must be greater than zero.");
+            }
+
+            // Ensure that the balance is sufficient
+            if (acc.Balance < amount)
+            {
+                throw new InvalidOperationException("Insufficient funds.");
+            }
+
+            // Subtract the withdrawal amount
+            acc.AddTransaction(-amount); // Negative for withdrawal, no reward points should be earned
         }
 
         private AccountBase FindAccount(string accountName)

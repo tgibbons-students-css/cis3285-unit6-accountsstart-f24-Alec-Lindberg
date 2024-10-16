@@ -110,6 +110,7 @@ namespace Domain.Tests
             int points = testAccount.RewardPoints;
             // Assert
             Assert.AreEqual(points, 800 + 2 + 800);
+         
         }
         [TestMethod]
         public void RewardPoints_Platinum_Deposit()

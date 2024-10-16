@@ -8,10 +8,11 @@ namespace Domain
 {
     public abstract class AccountBase
     {
+        // Static factory method to create the appropriate account type
         public static AccountBase CreateAccount(AccountType type)
         {
             AccountBase account = null;
-            switch(type)
+            switch (type)
             {
                 case AccountType.Silver:
                     account = new SilverAccount();
@@ -26,24 +27,26 @@ namespace Domain
             return account;
         }
 
-        public decimal Balance
-        {
-            get;
-            private set;
-        }
+        // Account balance
+        public decimal Balance { get; private set; }
 
-        public int RewardPoints
-        {
-            get;
-            private set;
-        }
+        // Reward points earned
+        public int RewardPoints { get; private set; }
 
+        // Handle transaction and update balance
         public void AddTransaction(decimal amount)
         {
-            RewardPoints += CalculateRewardPoints(amount);
+            // Only award reward points for positive deposits
+            if (amount > 0)
+            {
+                RewardPoints += CalculateRewardPoints(amount);
+            }
+
+            // Update balance, positive for deposit, negative for withdrawal
             Balance += amount;
         }
 
+        // Abstract method for calculating reward points in derived classes
         public abstract int CalculateRewardPoints(decimal amount);
     }
 }
